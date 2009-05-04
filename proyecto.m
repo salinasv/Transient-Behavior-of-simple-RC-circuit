@@ -20,10 +20,10 @@ WIRE_WIDTH = 7;
 % end enum
 
 dbg_init = 1
-Area = create_area(CELL_MM,CAP_WIDTH,CAP_HEIGTH,WIRE_WIDTH);
+[Area,Q] = create_area(CELL_MM,CAP_WIDTH,CAP_HEIGTH,WIRE_WIDTH);
 dbg_a = 1
 lengthA = length(Area);
-Q = init_q(Area, 4e5);
+%Q = init_q(Area, 4e5);
 dbg_q = 1
 [E, TH]  = electric_field(Q, Area, CELL_MM);
 dbg_e = 1

@@ -1,4 +1,4 @@
-function Area = create_area(CELL_MM, CAP_WIDTH, CAP_HEIGTH, WIRE_WIDTH);
+function [Area, Q] = create_area(CELL_MM, CAP_WIDTH, CAP_HEIGTH, WIRE_WIDTH);
 % function Area = create_area(CELL_MM, CAP_WIDTH, CAP_HEIGTH, WIRE_WIDTH);
 %
 % Hard coded draw cirquit using an area = 2 * CAP_HEIGTH
@@ -13,6 +13,7 @@ function Area = create_area(CELL_MM, CAP_WIDTH, CAP_HEIGTH, WIRE_WIDTH);
 % define work area
 lengthA = int32(CAP_HEIGTH*2 * CELL_MM);
 Area(lengthA,lengthA) = 0;
+Q(lengthA,lengthA) = 0;
 % draw the capacitor in the center
 center = lengthA / 2;
 width_cell = CAP_WIDTH * CELL_MM;
@@ -29,6 +30,9 @@ Area( cap1_left_limit:cap1_right_limit , cap_up_limit:cap_down_limit  ) = 1;
 cap2_right_limit = int32(center + lengthA(1)*0.05 + width_cell);
 cap2_left_limit = int32(center + lengthA(1)*0.05);
 Area( cap2_left_limit:cap2_right_limit , cap_up_limit:cap_down_limit  ) = 1;
+% Charge capacitor
+Q(cap1_right_limit-5:cap1_right_limit, cap_up_limit:cap_down_limit) = 4e5;
+Q(cap2_left_limit:cap2_left_limit+5, cap_up_limit:cap_down_limit) = -4e5;
 
 
 % Draw wire
