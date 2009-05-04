@@ -43,4 +43,4 @@ y = x;
 [X,Y] = meshgrid(x,y);
 hold on;
 surf(X,Y,Area);
-quiver(X, Y, E_x, E_y);
+quiver(x, y, E_x, E_y);
