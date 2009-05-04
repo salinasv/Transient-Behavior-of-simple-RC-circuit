@@ -1,5 +1,5 @@
-function [res, angle] = sum_qi-ri(Q, CIRC, x, y, CELL_MM)
-%function [res, angle] = sum_qi-ri(Q, CIRC, x, y, t, CELL_MM)
+function [res, angle] = sum_qi_ri(Q, CIRC, x, y, CELL_MM)
+%function [res, angle] = sum_qi_ri(Q, CIRC, x, y, t, CELL_MM)
 %
 % Calculates the sum of frac{[q_i]}{r_i^2} and returns the angle
 % of the resulting vector
