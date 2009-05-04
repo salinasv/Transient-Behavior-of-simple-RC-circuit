@@ -15,7 +15,7 @@ res_x = 0;
 res_y = 0;
 
 % iterate over the entire matrix
-for a = 1.siz(1)
+for a = 1:siz(1)
 	for b = 1:siz(2)
 		
 		% Validate if we are on a "conductive cell"
