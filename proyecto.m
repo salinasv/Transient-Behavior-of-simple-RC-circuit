@@ -10,6 +10,33 @@ CAP_HEIGTH = 17;
 % define wire width
 WIRE_WIDTH = 7;
 
+% Fake a enum type to be able to access properly each matrix in our 
+% working multi-dimensional matrix
+%enum
+	MD_AREA = 1;
+	MD_Q = 2;
+	MD_E = 3;
+	MD_V = 4;
+% end enum
+
+dbg_init = 1
 Area = create_area(CELL_MM,CAP_WIDTH,CAP_HEIGTH,WIRE_WIDTH);
+dbg_a = 1
+lengthA = length(Area);
+Q = init_q(Area, 4e5);
+dbg_q = 1
+[E, TH]  = electric_field(Q, Area, CELL_MM);
+dbg_e = 1
+V = potential(Q, Area, CELL_MM);
+dbg_v = 1
 
+[E_x, E_y] = pol2cart(TH, E);
 
+%draw Area capacitor
+siz = size(Area);
+x = linspace(0,siz(1), siz(2));
+y = x;
+[X,Y] = meshgrid(x,y);
+hold on;
+surf(X,Y,Area);
+quiver(X, Y, E_x, E_y);
