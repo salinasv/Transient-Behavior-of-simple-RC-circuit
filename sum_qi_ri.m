@@ -27,7 +27,7 @@ for a = 1:siz(1)
 			% actual equation
 			if vectorial
 				if (r.^2 == 0)
-					tmp_res(a,b) = 0;
+					tmp_res(a,b) = Q(a,b);
 				else
 					tmp_res(a,b) = Q(a,b) ./ r.^2;
 				end
@@ -36,7 +36,7 @@ for a = 1:siz(1)
 				res_y = res_y + b-y;
 			else
 				if (r == 0)
-					tmp_res(a,b) = 0;
+					tmp_res(a,b) = Q(a,b);
 				else
 					tmp_res(a,b) = Q(a,b) ./ r;
 				end
