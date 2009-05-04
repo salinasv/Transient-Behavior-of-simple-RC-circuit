@@ -15,6 +15,6 @@ K_e = 9e9;
 for x = 1:siz(1)
 	for y = 1:siz(2)
 		[res, ang] = sum_qi_ri(Q,CIRC, x, y, CELL_MM, false);
-		V = K_e .* res;
+		V(x,y) = K_e .* res;
 	end
 end
