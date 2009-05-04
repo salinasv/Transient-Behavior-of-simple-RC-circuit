@@ -42,7 +42,7 @@ for a = 1:siz(1)
 				end
 			end
 		else
-			tmp_res = 0;
+			tmp_res(a,b) = 0;
 		end
 	end
 end
