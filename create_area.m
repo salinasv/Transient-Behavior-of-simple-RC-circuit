@@ -20,14 +20,14 @@ heigth_cell = CAP_HEIGTH * CELL_MM;
 
 % Draw capacitor
 	%left side
-cap1_left_limit = int32(center - lengthA(1)*.05 - width_cell);
-cap1_right_limit = int32(center - lengthA(1)*.05);
-cap_up_limit = int32(lengthA*.1);
-cap_down_limit = int32(lengthA*.1 + heigth_cell);
+cap1_left_limit = int32(center - lengthA(1)*0.05 - width_cell);
+cap1_right_limit = int32(center - lengthA(1)*0.05);
+cap_up_limit = int32(lengthA*0.1);
+cap_down_limit = int32(lengthA*0.1 + heigth_cell);
 Area( cap1_left_limit:cap1_right_limit , cap_up_limit:cap_down_limit  ) = 1;
 	%right side
-cap2_right_limit = int32(center + lengthA(1)*.05 + width_cell);
-cap2_left_limit = int32(center + lengthA(1)*.05);
+cap2_right_limit = int32(center + lengthA(1)*0.05 + width_cell);
+cap2_left_limit = int32(center + lengthA(1)*0.05);
 Area( cap2_left_limit:cap2_right_limit , cap_up_limit:cap_down_limit  ) = 1;
 
 
