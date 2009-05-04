@@ -21,7 +21,7 @@ for a = 1:siz(1)
 		% Validate if we are on a "conductive cell"
 		if CIRC(a,b)
 			% get the "cell distance"
-			dist = sqrt(abs(a-x / b-y));
+			dist = sqrt((a-x).^2 + (b-y).^2);
 			% transform it to metric stuff
 			r = dist ./ CELL_MM;
 			% actual equation
