@@ -50,7 +50,12 @@ end
 % Actually set the output.
 res = sum(sum(tmp_res));
 if vectorial
-	angle = atan2(res_x, res_y);
+	if res < 0
+		res = -res;
+		angle = -atan2(res_x, res_y);
+	else
+		angle = atan2(res_x, res_y);
+	end
 else
 	angle = NaN;
 end
