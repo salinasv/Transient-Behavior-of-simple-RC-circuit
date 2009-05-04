@@ -25,6 +25,10 @@ dbg_a = 1
 lengthA = length(Area);
 %Q = init_q(Area, 4e5);
 dbg_q = 1
+%init matrix
+E(lengthA) = 0;
+TH = E;
+V = E;
 [E, TH]  = electric_field(Q, Area, CELL_MM);
 dbg_e = 1
 V = potential(Q, Area, CELL_MM);
