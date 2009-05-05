@@ -32,15 +32,16 @@ lengthA = length(Area);
 E(lengthA) = 0;
 TH = E;
 V = E;
+Qt{1} = Q;
 
 %% Execute
 for it = 1:STEPS
-	[E(it), TH(it)]  = electric_field(Q(it), Area, CELL_MM);
-	V(it) = potential(Q(it), Area, CELL_MM);
+	[E(it), TH(it)]  = electric_field(Qt{it}, Area, CELL_MM);
+	V(it) = potential(Q{it}, Area, CELL_MM);
 
 	% update charge
 	% TODO: we need to get d_charge() done so, this may change
-	Q(it+1) = d_charge(omega, E(it), TH(it), s_2, dt);
+	Qt{it+1} = Qt{it} + d_charge(omega, E(it), TH(it), s_2, dt);
 end
 
 
