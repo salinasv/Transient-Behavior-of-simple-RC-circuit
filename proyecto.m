@@ -10,6 +10,10 @@ CAP_HEIGTH = 17;
 % define wire width
 WIRE_WIDTH = 7;
 
+% define time stuff
+STEPS = 500;
+TIME_MAX = 0.1;
+
 % Fake a enum type to be able to access properly each matrix in our 
 % working multi-dimensional matrix
 %enum
@@ -18,6 +22,8 @@ WIRE_WIDTH = 7;
 	MD_E = 3;
 	MD_V = 4;
 % end enum
+
+t = linspace(0, TIME_MAX, STEPS);
 
 dbg_init = 1
 [Area,Q] = create_area(CELL_MM,CAP_WIDTH,CAP_HEIGTH,WIRE_WIDTH);
