@@ -42,7 +42,6 @@ for it = 1:STEPS
 	Q(it+1) = d_charge(omega, E(it), TH(it), s_2, dt);
 end
 
-[E_x, E_y] = pol2cart(TH, E);
 
 %% Nice Plot
 %draw Area capacitor
@@ -52,4 +51,7 @@ y = x;
 [X,Y] = meshgrid(x,y);
 hold on;
 surf(X,Y,Area);
+% plot electric field
+[E_x, E_y] = pol2cart(TH, E);
 quiver(x, y, E_x, E_y);
+hold off;
