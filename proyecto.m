@@ -24,7 +24,7 @@ TIME_MAX = 0.1;
 % end enum
 
 %% Init
-t = linspace(0, TIME_MAX, STEPS);
+dt = TIME_MAX-0 ./ STEPS;
 
 [Area,Q] = create_area(CELL_MM,CAP_WIDTH,CAP_HEIGTH,WIRE_WIDTH);
 lengthA = length(Area);
