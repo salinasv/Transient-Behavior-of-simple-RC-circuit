@@ -36,12 +36,12 @@ Qt{1} = Q;
 
 %% Execute
 for it = 1:STEPS
-	[E(it), TH(it)]  = electric_field(Qt{it}, Area, CELL_MM);
-	V(it) = potential(Q{it}, Area, CELL_MM);
+	[E{it}, TH{it}]  = electric_field(Qt{it}, Area, CELL_MM);
+	V{it} = potential(Q{it}, Area, CELL_MM);
 
 	% update charge
 	% TODO: we need to get d_charge() done so, this may change
-	Qt{it+1} = Qt{it} + d_charge(omega, E(it), TH(it), s_2, dt);
+	Qt{it+1} = Qt{it} + d_charge(omega, E{it}, TH{it}, s_2, dt);
 end
 
 
@@ -54,6 +54,6 @@ y = x;
 hold on;
 surf(X,Y,Area);
 % plot electric field
-[E_x, E_y] = pol2cart(TH, E);
+[E_x, E_y] = pol2cart(TH{1}, E{1});
 quiver(x, y, E_x, E_y);
 hold off;
