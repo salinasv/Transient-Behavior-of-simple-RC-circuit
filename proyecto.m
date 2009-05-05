@@ -39,6 +39,7 @@ for it = 1:STEPS
 	V(it) = potential(Q(it), Area, CELL_MM);
 
 	% update charge
+	% TODO: we need to get d_charge() done so, this may change
 	Q(it+1) = d_charge(omega, E(it), TH(it), s_2, dt);
 end
 
