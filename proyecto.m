@@ -23,6 +23,7 @@ TIME_MAX = 0.1;
 	MD_V = 4;
 % end enum
 
+%% Init
 t = linspace(0, TIME_MAX, STEPS);
 
 dbg_init = 1
@@ -35,6 +36,8 @@ dbg_q = 1
 E(lengthA) = 0;
 TH = E;
 V = E;
+
+%% Execute
 [E, TH]  = electric_field(Q, Area, CELL_MM);
 dbg_e = 1
 V = potential(Q, Area, CELL_MM);
@@ -42,6 +45,7 @@ dbg_v = 1
 
 [E_x, E_y] = pol2cart(TH, E);
 
+%% Nice Plot
 %draw Area capacitor
 siz = size(Area);
 x = linspace(0,siz(1), siz(2));
