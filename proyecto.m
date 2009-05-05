@@ -34,8 +34,13 @@ TH = E;
 V = E;
 
 %% Execute
-[E, TH]  = electric_field(Q, Area, CELL_MM);
-V = potential(Q, Area, CELL_MM);
+for it = 1:STEPS
+	[E(it), TH(it)]  = electric_field(Q(it), Area, CELL_MM);
+	V(it) = potential(Q(it), Area, CELL_MM);
+
+	% update charge
+	Q(it+1) = d_charge(omega, E(it), TH(it), s_2, dt);
+end
 
 [E_x, E_y] = pol2cart(TH, E);
 
