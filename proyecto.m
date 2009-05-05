@@ -36,12 +36,15 @@ Qt{1} = Q;
 
 %% Execute
 for it = 1:STEPS
-	[E{it}, TH{it}]  = electric_field(Qt{it}, Area, CELL_MM);
-	V{it} = potential(Q{it}, Area, CELL_MM);
+	[E, TH]  = electric_field(Qt{it}, Area, CELL_MM);
+	V = potential(Qt{it}, Area, CELL_MM);
+	Et{it} = E;
+	THt{it} = TH;
+	Vt{it} = V;
 
 	% update charge
 	% TODO: we need to get d_charge() done so, this may change
-	Qt{it+1} = Qt{it} + d_charge(omega, E{it}, TH{it}, s_2, dt);
+	Qt{it+1} = Qt{it} + d_charge(omega, Et{it}, THt{it}, s_2, dt);
 end
 
 
