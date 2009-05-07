@@ -14,6 +14,9 @@ WIRE_WIDTH = 7;
 STEPS = 500;
 TIME_MAX = 0.1;
 
+% cicuit params
+sigma = 1;
+
 % Fake a enum type to be able to access properly each matrix in our 
 % working multi-dimensional matrix
 %enum
@@ -25,6 +28,7 @@ TIME_MAX = 0.1;
 
 %% Init
 dt = TIME_MAX-0 ./ STEPS;
+s_2 = (1./CELL_MM).^2;
 
 [Area,Q] = create_area(CELL_MM,CAP_WIDTH,CAP_HEIGTH,WIRE_WIDTH);
 lengthA = length(Area);
@@ -43,8 +47,7 @@ for it = 1:STEPS
 	Vt{it} = V;
 
 	% update charge
-	% TODO: we need to get d_charge() done so, this may change
-	Qt{it+1} = Qt{it} + d_charge(omega, Et{it}, THt{it}, s_2, dt);
+	Qt{it+1} = Qt{it} + d_charge(Qt{it}, Area, sigma, Et{it}, THt{it}, s_2, dt);
 end
 
 
