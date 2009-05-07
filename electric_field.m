@@ -1,11 +1,11 @@
-function [E,V] = electric_field(Q, CIRC, CELL_MM)
+function [E_x, E_y] = electric_field(Q, CIRC, CELL_MM)
 %function [E,V] = electric_field(Q, CIRC, CELL_MM)
 %
 % Calculates the Electric field matrix based on the Q matrix.
 %
 % Return:
-% E: 	Electric Field magnitude on each point.
-% V: 	Electric Field direction on each point.
+% E_x: 	Component x of Electric Field.
+% E_y: 	Component y of Electric Field.
 % 
 % Params:
 % Q: 		The charge matrix.
@@ -19,9 +19,9 @@ K_e = 9e9;
 for x = 1:siz(1)
 	for y = 1:siz(2)
 		
-		[res, angle] = sum_qi_ri(Q, CIRC, x, y, CELL_MM, true);
-		E(x,y) = K_e .* res;
-		V(x,y) = angle;
+		[tmp_x, tmp_y] = sum_qi_ri(Q, CIRC, x, y, CELL_MM, true);
+		E_x(x,y) = (K_e ./2) .* tmp_x;
+		E_y(x,y) = (K_e ./2) .* tmp_y;
 	end
 end
 

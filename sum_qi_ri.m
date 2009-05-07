@@ -1,8 +1,12 @@
-function [res, angle] = sum_qi_ri(Q, CIRC, x, y, CELL_MM, vectorial)
+function [comp_x, comp_y] = sum_qi_ri(Q, CIRC, x, y, CELL_MM, vectorial)
 %function [res, angle] = sum_qi_ri(Q, CIRC, x, y, CELL_MM, vectorial)
 %
 % Calculates the sum of frac{[q_i]}{r_i^2} and returns the angle
 % of the resulting vector
+%
+% Return:
+% comp_x: 	Scalar sum if vectorial == false, else component x.
+% comp_y: 	Component y.
 %
 % Q: 		The charge matrix.
 % CIRC:		Circuit area matrix.
@@ -13,11 +17,15 @@ function [res, angle] = sum_qi_ri(Q, CIRC, x, y, CELL_MM, vectorial)
 siz = size(Q);
 res_x = 0;
 res_y = 0;
+tmp_res = 0;
 
 % iterate over the entire matrix
 for a = 1:siz(1)
 	for b = 1:siz(2)
 		if a == x && b == y
+			tmp_res = tmp_res + Q(a,b);
+			res_x = res_x + Q(a,b);
+			res_y = res_y + Q(a,b);
 			continue
 		end
 		
@@ -29,29 +37,31 @@ for a = 1:siz(1)
 			r = dist ./ CELL_MM;
 			% actual equation
 			if vectorial
-				tmp_res(a,b) = Q(a,b) ./ r.^2;
-				% get data to be able to calculate the vector's angle
-				res_x = res_x + (x-a);
-				res_y = res_y + (y-b);
+				% E = - \partial V so we got the partial derivation on x and y and we
+				% use each except when a==x or b==y to avoid divition by zero.
+				if a ~= x
+					tmp = 1 ./ (2 .* (2.*x - 2.*a) .* ...
+					((x-a).^2 + (y-b).^2).^(3./2));
+					res_x = res_x + Q(a,b) .* tmp;
+				end
+				if b ~= y
+					tmp = 1 ./ (2 .* (2.*y - 2.*b) .* ...
+					((x-a).^2 + (y-b).^2).^(3./2));
+					res_y = res_y + Q(a,b) .* tmp;
+				end
 			else
-				tmp_res(a,b) = Q(a,b) ./ r;
+				tmp_res = tmp_res + Q(a,b) ./ r;
 			end
-		else
-			tmp_res(a,b) = 0;
 		end
 	end
 end
 
 % Actually set the output.
-res = sum(sum(tmp_res));
 if vectorial
-	if res < 0
-		res = -res;
-		angle = -atan2(res_y, res_x);
-	else
-		angle = atan2(res_y, res_x);
-	end
+	comp_x = -res_x;
+	comp_y = -res_y;
 else
-	angle = NaN;
+	comp_x = tmp_res;
+	comp_y = NaN;
 end
 
