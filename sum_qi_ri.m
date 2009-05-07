@@ -24,8 +24,6 @@ for a = 1:siz(1)
 	for b = 1:siz(2)
 		if a == x && b == y
 			tmp_res = tmp_res + Q(a,b);
-			res_x = res_x + Q(a,b);
-			res_y = res_y + Q(a,b);
 			continue
 		end
 		
