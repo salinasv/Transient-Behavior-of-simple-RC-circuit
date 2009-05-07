@@ -17,6 +17,9 @@ res_y = 0;
 % iterate over the entire matrix
 for a = 1:siz(1)
 	for b = 1:siz(2)
+		if a == x && b == y
+			continue
+		end
 		
 		% Validate if we are on a "conductive cell"
 		if CIRC(a,b)
@@ -26,20 +29,12 @@ for a = 1:siz(1)
 			r = dist ./ CELL_MM;
 			% actual equation
 			if vectorial
-				if (r.^2 == 0)
-					tmp_res(a,b) = Q(a,b);
-				else
-					tmp_res(a,b) = Q(a,b) ./ r.^2;
-				end
+				tmp_res(a,b) = Q(a,b) ./ r.^2;
 				% get data to be able to calculate the vector's angle
-				res_x = res_x + a-x;
-				res_y = res_y + b-y;
+				res_x = res_x + (x-a);
+				res_y = res_y + (y-b);
 			else
-				if (r == 0)
-					tmp_res(a,b) = Q(a,b);
-				else
-					tmp_res(a,b) = Q(a,b) ./ r;
-				end
+				tmp_res(a,b) = Q(a,b) ./ r;
 			end
 		else
 			tmp_res(a,b) = 0;
