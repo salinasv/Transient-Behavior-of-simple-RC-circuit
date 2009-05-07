@@ -8,7 +8,8 @@ function [Area, Q] = create_area(CELL_MM, CAP_WIDTH, CAP_HEIGTH, WIRE_WIDTH);
 % CAP_HEIGTH: 	Define capacitor heigth in mm
 % WIRE_WIDTH: 	Define wire width
 
-
+% Defineh initial charge
+CHARGE = 4e5;
 
 % define work area
 lengthA = int32(CAP_HEIGTH*2 * CELL_MM);
@@ -31,9 +32,13 @@ cap2_right_limit = int32(center + lengthA(1)*0.05 + width_cell);
 cap2_left_limit = int32(center + lengthA(1)*0.05);
 Area( cap2_left_limit:cap2_right_limit , cap_up_limit:cap_down_limit  ) = 1;
 % Charge capacitor
-Q(cap1_right_limit-5:cap1_right_limit, cap_up_limit:cap_down_limit) = 4e5;
-Q(cap2_left_limit:cap2_left_limit+5, cap_up_limit:cap_down_limit) = -4e5;
+% set a puntual charge at the center
+cap_center = int32((cap_down_limit - cap_up_limit) ./2 + cap_up_limit);
+Q(cap1_right_limit:cap1_right_limit, cap_center) = CHARGE;
+Q(cap2_left_limit:cap2_left_limit, cap_center) = -CHARGE;
 
+%Q(cap1_right_limit-5:cap1_right_limit, cap_up_limit:cap_down_limit) = 4e5;
+%Q(cap2_left_limit:cap2_left_limit+5, cap_up_limit:cap_down_limit) = -4e5;
 
 % Draw wire
 	% Capacitor connectors
