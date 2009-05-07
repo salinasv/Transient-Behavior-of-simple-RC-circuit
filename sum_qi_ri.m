@@ -47,9 +47,9 @@ res = sum(sum(tmp_res));
 if vectorial
 	if res < 0
 		res = -res;
-		angle = -atan2(res_x, res_y);
+		angle = -atan2(res_y, res_x);
 	else
-		angle = atan2(res_x, res_y);
+		angle = atan2(res_y, res_x);
 	end
 else
 	angle = NaN;
