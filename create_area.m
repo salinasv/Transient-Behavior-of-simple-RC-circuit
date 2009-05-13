@@ -37,8 +37,8 @@ cap_center = int32((cap_down_limit - cap_up_limit) ./2 + cap_up_limit);
 Q(cap1_right_limit:cap1_right_limit, cap_center) = CHARGE;
 Q(cap2_left_limit:cap2_left_limit, cap_center) = -CHARGE;
 
-%Q(cap1_right_limit-5:cap1_right_limit, cap_up_limit:cap_down_limit) = 4e5;
-%Q(cap2_left_limit:cap2_left_limit+5, cap_up_limit:cap_down_limit) = -4e5;
+%Q(cap1_right_limit-5:cap1_right_limit, cap_up_limit:cap_down_limit) = CHARGE;
+%Q(cap2_left_limit:cap2_left_limit+5, cap_up_limit:cap_down_limit) = -CHARGE;
 
 % Draw wire
 	% Capacitor connectors
