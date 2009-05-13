@@ -1,4 +1,4 @@
-% This is the main script to be run by the "Transient Behavior of simple
+%% This is the main script to be run by the "Transient Behavior of simple
 % RC circuits".
 clear all
 
@@ -40,16 +40,18 @@ Qt{1} = Q;
 
 %% Execute
 for it = 1:STEPS
-	[E, TH]  = electric_field(Qt{it}, Area, CELL_MM);
 	V = potential(Qt{it}, Area, CELL_MM);
-	Et{it} = E;
-	THt{it} = TH;
+	[Ex, Ey] = gradient(V);
+	Ex = -Ex;
+	Ey = -Ey;
+	Ext{it} = Ex;
+	Eyt{it} = Ey;
 	Vt{it} = V;
 
 	% update charge
-	Qt{it+1} = Qt{it} + d_charge(Qt{it}, Area, sigma, Et{it}, THt{it}, s_2, dt);
+	Qt{it+1} = Qt{it} + d_charge(Qt{it}, Area, sigma, Ext{it}, Eyt{it}, s_2, dt);
 end
-
+close(h);
 
 %% Nice Plot
 %draw Area capacitor
@@ -60,6 +62,6 @@ y = x;
 hold on;
 surf(X,Y,Area);
 % plot electric field
-[E_x, E_y] = pol2cart(TH{1}, E{1});
+[E_x, E_y] = pol2cart(THt{1}, Et{1});
 quiver(x, y, E_x, E_y);
 hold off;
