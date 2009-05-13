@@ -29,7 +29,7 @@ sigma = 1./R;
 
 %% Init
 dt = TIME_MAX-0 ./ STEPS;
-s_2 = (1./CELL_MM).^2;
+s_2 = (1./CELL_MM);
 
 [Area,Q] = create_area(CELL_MM,CAP_WIDTH,CAP_HEIGTH,WIRE_WIDTH);
 lengthA = length(Area);
