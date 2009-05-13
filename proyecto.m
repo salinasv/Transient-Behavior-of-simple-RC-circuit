@@ -15,7 +15,8 @@ STEPS = 500;
 TIME_MAX = 0.1;
 
 % cicuit params
-sigma = 1;
+R = 1e6;
+sigma = 1./R;
 
 % Fake a enum type to be able to access properly each matrix in our 
 % working multi-dimensional matrix
