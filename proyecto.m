@@ -8,7 +8,7 @@ CELL_MM = 2;
 CAP_WIDTH = 4.5;
 CAP_HEIGTH = 17;
 % define wire width
-WIRE_WIDTH = 7;
+WIRE_WIDTH = 3;
 
 % define time stuff
 STEPS = 500;
