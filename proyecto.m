@@ -40,6 +40,7 @@ V = E;
 Qt{1} = Q;
 
 %% Execute
+h = waitbar(1./STEPS);
 for it = 1:STEPS
 	V = potential(Qt{it}, Area, CELL_MM);
 	[Ex, Ey] = gradient(V);
@@ -51,6 +52,7 @@ for it = 1:STEPS
 
 	% update charge
 	Qt{it+1} = Qt{it} + d_charge(Qt{it}, Area, sigma, Ext{it}, Eyt{it}, s_2, dt);
+	waitbar(it./STEPS, h);
 end
 close(h);
 
