@@ -65,6 +65,5 @@ y = x;
 hold on;
 surf(X,Y,Area);
 % plot electric field
-[E_x, E_y] = pol2cart(THt{1}, Et{1});
-quiver(x, y, E_x, E_y);
+quiver(x, y, Ext{1}, Eyt{1});
 hold off;
