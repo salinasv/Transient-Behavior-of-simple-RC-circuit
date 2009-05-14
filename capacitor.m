@@ -1,0 +1,104 @@
+%% This is the main script to be run by the "Transient Behavior of simple
+% RC circuits".
+clear all
+
+% define the number of cells per mm 
+CELL_MM = 2;
+% define capacitor size in mm
+CAP_WIDTH = 4.5;
+CAP_HEIGTH = 17;
+% define wire width
+WIRE_WIDTH = 3;
+
+% define time stuff
+STEPS = 500;
+TIME_MAX = 0.1;
+
+% Permitivitty of free space.
+E_0 = 9e-12;
+%relative perm
+E_vacum = 1;
+E_air = 1.00054;
+E_foo = 100;
+
+% cicuit params
+R = 1e6;
+sigma = 1./R;
+
+% Number of charges we want to manage
+Q_NUM = 3;
+Q_CHARGE = 5; %Coulombs
+
+%% Init
+dt = TIME_MAX-0 ./ STEPS;
+s_2 = (1./CELL_MM);
+
+[Area, dummy] = create_area(CELL_MM,CAP_WIDTH,CAP_HEIGTH,WIRE_WIDTH);
+lengthA = length(Area);
+
+%set the charges
+Q.q = ones(1,Q_NUM) .* Q_CHARGE;
+%Q.q = [1, -1, 1, -1, 1, -1] .* Q_CHARGE;
+
+% place the charges
+Q.x = [20, 25, 30];
+Q.y = [20, 25, 22];
+
+%% Calculate stuff.
+%distance
+X = meshgrid(Q.x);
+Y = meshgrid(Q.y);
+XX = X - X';
+YY = Y - Y';
+D2 = XX.^2 + YY.^2;
+D = sqrt(D2);
+
+% Potential
+meshgrid(Q.q)'
+D
+Q.v = meshgrid(Q.q)' ./ D;
+% Real distance
+XX(eye(Q_NUM) == 1) = 1;
+X_inv = 1./XX.^2;
+X_inv = X_inv .* (XX ./ D);
+X_inv(eye(Q_NUM) == 1) = 0;
+Y_2 = 1./YY.^2;
+Y_inv = 1./YY.^2;
+Y_inv = Y_inv .* (YY ./ D);
+Y_inv(eye(Q_NUM) == 1) = 0;
+
+DD = XX + YY;
+DD(eye(Q_NUM) == 1) = 1;
+D_inv = 1./DD;
+D_inv(eye(Q_NUM) == 1) = 0;
+
+
+% Medium factor
+Ke = 1./(4.*pi.*E_foo);
+
+% Electric field
+q_m = meshgrid(Q.q);
+q_m(eye(Q_NUM) == 1) = 0;
+Ex = (q_m * X_inv);
+Ey = (q_m * Y_inv);
+Q.Ex = Ex(eye(Q_NUM) == 1);
+Q.Ey = Ex(eye(Q_NUM) == 1);
+%Q.Ex = Ex(eye(Q_NUM) == 1) .* (Ke./2);
+%Q.Ey = Ex(eye(Q_NUM) == 1) .* (Ke./2);
+%force
+Q.Fx = Q.Ex .* Q.q';
+Q.Fy = Q.Ey .* Q.q';
+
+
+%% plot stuff
+siz = size(Area);
+x = linspace(0, siz(1), siz(1));
+y = x;
+[A,B] = meshgrid(x,y);
+Q_m = zeros(siz(1));
+for it = 1:length(Q.q)
+	Q_m(Q.x(it), Q.y(it)) = Q.q(it);
+end
+figure(1),surf(A,B, Q_m);
+figure(2),quiver(Q.x,Q.y,Q.Fx,Q.Fy);
+figure(2),quiver(Q.x,Q.y,Q.Ex,Q.Ey);
