@@ -54,37 +54,29 @@ D2 = XX.^2 + YY.^2;
 D = sqrt(D2);
 
 % Potential
-meshgrid(Q.q)'
-D
+D(eye(Q_NUM) == 1) = 1;
 Q.v = meshgrid(Q.q)' ./ D;
 % Real distance
-XX(eye(Q_NUM) == 1) = 1;
-X_inv = 1./XX.^2;
-X_inv = X_inv .* (XX ./ D);
-X_inv(eye(Q_NUM) == 1) = 0;
-Y_2 = 1./YY.^2;
-Y_inv = 1./YY.^2;
-Y_inv = Y_inv .* (YY ./ D);
-Y_inv(eye(Q_NUM) == 1) = 0;
+R3 = D.^3;
+R3(eye(Q_NUM) == 1) = 1;
+Rinv = 1./R3;
+Rinv(eye(Q_NUM) == 1) = 0;
 
-DD = XX + YY;
-DD(eye(Q_NUM) == 1) = 1;
-D_inv = 1./DD;
-D_inv(eye(Q_NUM) == 1) = 0;
+qm = meshgrid(Q.q)';
+qx = qm .* XX;
+qy = qm .* YY;
 
+qx(eye(Q_NUM) == 1) = 0;
+qy(eye(Q_NUM) == 1) = 0;
+% Electric field
+Ex = qx * Rinv;
+Ey = qy * Rinv;
 
 % Medium factor
 Ke = 1./(4.*pi.*E_foo);
 
-% Electric field
-q_m = meshgrid(Q.q);
-q_m(eye(Q_NUM) == 1) = 0;
-Ex = (q_m * X_inv);
-Ey = (q_m * Y_inv);
-Q.Ex = Ex(eye(Q_NUM) == 1);
-Q.Ey = Ex(eye(Q_NUM) == 1);
-%Q.Ex = Ex(eye(Q_NUM) == 1) .* (Ke./2);
-%Q.Ey = Ex(eye(Q_NUM) == 1) .* (Ke./2);
+Q.Ex = Ex(eye(Q_NUM) == 1) .* (Ke./2);
+Q.Ey = Ey(eye(Q_NUM) == 1) .* (Ke./2);
 %force
 Q.Fx = Q.Ex .* Q.q';
 Q.Fy = Q.Ey .* Q.q';
