@@ -95,16 +95,17 @@ x = linspace(0, siz(1), siz(1));
 y = x;
 [A,B] = meshgrid(x,y);
 Q_m = zeros(siz(1));
-for it = 1:length(Q.q)
-	Q_m(Q.x(it), Q.y(it)) = Q.q(it);
-end
-figure(1),surf(A,B, Q_m);
-figure(2),quiver(Q.x,Q.y,Q.Fx,Q.Fy);
-figure(2),quiver(Q.x,Q.y,Q.Ex,Q.Ey);
+%for it = 1:length(Q.q)
+%	Q_m(Q.x(it), Q.y(it)) = Q.q(it);
+%end
+F_QUI = 2;
+%figure(1),surf(A,B, Q_m);
+figure(F_QUI),quiver(Q.x,Q.y,Q.Fx,Q.Fy);
+figure(F_QUI),quiver(Q.x,Q.y,Q.Ex,Q.Ey);
 
 % Display charges
 if Q.q > 0
-	text(Q.x, Q.y, '+')
+	figure(F_QUI),text(Q.x, Q.y, '+')
 else
-	text(Q.x, Q.y, '-')
+	figure(F_QUI),text(Q.x, Q.y, '-')
 end
