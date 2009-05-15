@@ -116,10 +116,10 @@ for it = 1:STEPS
 
 	%Actualize data
 	sigma = diag(Area(int32(Q.x), int32(Q.y)));
-	Fx = sigma.*Q.Ex./Q.q';
-	Fy = sigma.*Q.Ey./Q.q';
-	Qn.x = Q.x + Fx'.*dt;
-	Qn.y = Q.y + Fy'.*dt;
+	vdx = sigma.*Q.Ex./Q.q';
+	vdy = sigma.*Q.Ey./Q.q';
+	Qn.x = Q.x + vdx'.*dt;
+	Qn.y = Q.y + vdy'.*dt;
 	Qn.vx = Q.vx + Fx' .* dt;
 	Qn.vy = Q.vy + Fy' .* dt;
 
