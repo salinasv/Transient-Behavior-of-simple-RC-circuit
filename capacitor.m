@@ -96,8 +96,8 @@ for it = 1:STEPS
 	Rinv(eye(Q_NUM) == 1) = 0;
 
 	qm = meshgrid(Q.q)';
-	qx = qm .* XX;
-	qy = qm .* YY;
+	qx = qm .* XX';
+	qy = qm .* YY';
 
 	qx(eye(Q_NUM) == 1) = 0;
 	qy(eye(Q_NUM) == 1) = 0;
