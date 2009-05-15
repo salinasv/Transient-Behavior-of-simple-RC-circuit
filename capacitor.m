@@ -115,12 +115,14 @@ for it = 1:STEPS
 	Q.Fy = Q.Ey .* Q.q';
 
 	%Actualize data
+	sigma = diag(Area(int32(Q.x), int32(Q.y)));
 	Fx = sigma.*Q.Ex./Q.q';
 	Fy = sigma.*Q.Ey./Q.q';
-	Qn.x = Q.x + Q.vx.*t(it) + Fx' .* t(it)^2;
-	Qn.y = Q.y + Q.vy.*t(it) + Fy' .* t(it)^2;
-	Qn.vx = Q.vx + Fx' .* t(it);
-	Qn.vy = Q.vy + Fy' .* t(it);
+	Qn.x = Q.x + Fx'.*dt;
+	Qn.y = Q.y + Fy'.*dt;
+	Qn.vx = Q.vx + Fx' .* dt;
+	Qn.vy = Q.vy + Fy' .* dt;
+
 	t(it+1) = t(it) + dt;
 
 	Qn.q = Q.q;
@@ -128,7 +130,7 @@ for it = 1:STEPS
 	Qt{it+1} = Qn;
 
 	%figure(1),surf(A,B, Q_m);
-	figure(F_FORCE),quiver(Q.x,Q.y,Q.Fx,Q.Fy);
+	figure(F_FORCE),quiver(Q.x,Q.y,Fx,Fy);
 	figure(F_QUI),quiver(Q.x,Q.y,Q.Ex,Q.Ey);
 
 	% Display charges
