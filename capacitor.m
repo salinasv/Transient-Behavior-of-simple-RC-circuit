@@ -110,9 +110,6 @@ for it = 1:STEPS
 
 	Q.Ex = Ex(eye(Q_NUM) == 1) .* (Ke./2);
 	Q.Ey = Ey(eye(Q_NUM) == 1) .* (Ke./2);
-	%force
-	Q.Fx = Q.Ex .* Q.q';
-	Q.Fy = Q.Ey .* Q.q';
 
 	%Actualize data
 	sigma = diag(Area(int32(Q.x), int32(Q.y)));
@@ -120,8 +117,6 @@ for it = 1:STEPS
 	vdy = sigma.*Q.Ey./Q.q';
 	Qn.x = Q.x + vdx'.*dt;
 	Qn.y = Q.y + vdy'.*dt;
-	Qn.vx = Q.vx + Fx' .* dt;
-	Qn.vy = Q.vy + Fy' .* dt;
 
 	t(it+1) = t(it) + dt;
 
