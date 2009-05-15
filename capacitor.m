@@ -130,7 +130,7 @@ for it = 1:STEPS
 	Qt{it+1} = Qn;
 
 	%figure(1),surf(A,B, Q_m);
-	figure(F_FORCE),quiver(Q.x,Q.y,Fx,Fy);
+	figure(F_FORCE),quiver(Q.x,Q.y,vdx,vdy);
 	figure(F_QUI),quiver(Q.x,Q.y,Q.Ex,Q.Ey);
 
 	% Display charges
