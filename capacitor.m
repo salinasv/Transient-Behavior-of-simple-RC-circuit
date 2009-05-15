@@ -101,3 +101,10 @@ end
 figure(1),surf(A,B, Q_m);
 figure(2),quiver(Q.x,Q.y,Q.Fx,Q.Fy);
 figure(2),quiver(Q.x,Q.y,Q.Ex,Q.Ey);
+
+% Display charges
+if Q.q > 0
+	text(Q.x, Q.y, '+')
+else
+	text(Q.x, Q.y, '-')
+end
