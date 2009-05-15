@@ -19,7 +19,7 @@ E_0 = 9e-12;
 %relative perm
 E_vacum = 1;
 E_air = 1.00054;
-E_foo = 100;
+E_foo = 5e-4;
 E0 = 8.8542e-10;
 
 % cicuit params
@@ -106,7 +106,7 @@ for it = 1:STEPS
 	Ey = qy * Rinv;
 
 	% Medium factor
-	Ke = 1./(4.*pi.*E0);
+	Ke = 1./(4.*pi.*E_foo);
 
 	Q.Ex = Ex(eye(Q_NUM) == 1) .* (Ke./2);
 	Q.Ey = Ey(eye(Q_NUM) == 1) .* (Ke./2);
