@@ -27,31 +27,36 @@ R = 1e6;
 sigma = 1./R;
 
 % Number of charges we want to manage
-Q_NUM = 10;
-Q_CHARGE = 5; %Coulombs
+%Q_NUM = 10;
+%Q_CHARGE = 5; %Coulombs
 
 %% Init
 dt = TIME_MAX-0 ./ STEPS;
 t = dt;
 s_2 = (1./CELL_MM);
 
-[Area, dummy] = create_area(CELL_MM,CAP_WIDTH,CAP_HEIGTH,WIRE_WIDTH);
+[Area, Qin] = create_area(CELL_MM,CAP_WIDTH,CAP_HEIGTH,WIRE_WIDTH);
 lengthA = length(Area);
+[Q.x, Q.y] = find(Qin ~= 0);
+Q.x = Q.x';
+Q.y = Q.y';
+Q.q = diag(Qin(Q.x,Q.y))';
+Q_NUM = length(Q.q);
 
 %set the charges
 %Q.q = ones(1,Q_NUM) .* Q_CHARGE;
 %Q.q = [1, -1, 1, -1, 1, -1] .* Q_CHARGE;
-Q.q = [ones(1,Q_NUM./2), ones(1,Q_NUM./2).*-1] .* Q_CHARGE;
-Q.q(11) = Q_CHARGE;
-Q_NUM = 11;
+%Q.q = [ones(1,Q_NUM./2), ones(1,Q_NUM./2).*-1] .* Q_CHARGE;
+%Q.q(11) = Q_CHARGE;
+%Q_NUM = 11;
 
 % place the charges
 %Q.x = [20, 25, 30];
 %Q.y = [20, 25, 22];
-Q.x = [ones(1,Q_NUM./2), ones(1,Q_NUM./2).*2];
-Q.y = [1:1:5, 1:1:5];
-Q.x(11) = 1.5;
-Q.y(11) = 5;
+%Q.x = [ones(1,Q_NUM./2), ones(1,Q_NUM./2).*2];
+%Q.y = [1:1:5, 1:1:5];
+%Q.x(11) = 1.5;
+%Q.y(11) = 5;
 % Init velocity
 Q.vx(Q_NUM) = 0;
 Q.vy(Q_NUM) = 0;
