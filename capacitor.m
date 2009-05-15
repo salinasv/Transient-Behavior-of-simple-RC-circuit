@@ -56,6 +56,18 @@ Q.y(11) = 5;
 Q.vx(Q_NUM) = 0;
 Q.vy(Q_NUM) = 0;
 
+% plot stuff
+siz = size(Area);
+x = linspace(0, siz(1), siz(1));
+y = x;
+[A,B] = meshgrid(x,y);
+Q_m = zeros(siz(1));
+%for it = 1:length(Q.q)
+%	Q_m(Q.x(it), Q.y(it)) = Q.q(it);
+%end
+F_QUI = 2;
+F_FORCE = 3;
+
 Qt{1} = Q;
 %% Calculate stuff.
 h = waitbar(1./STEPS);
@@ -110,28 +122,18 @@ for it = 1:STEPS
 	Qt{it} = Q;
 	Qt{it+1} = Qn;
 
+	%figure(1),surf(A,B, Q_m);
+	figure(F_FORCE),quiver(Q.x,Q.y,Q.Fx,Q.Fy);
+	figure(F_QUI),quiver(Q.x,Q.y,Q.Ex,Q.Ey);
+
+	% Display charges
+	if Q.q > 0
+		figure(F_QUI),text(Q.x, Q.y, '+')
+	else
+		figure(F_QUI),text(Q.x, Q.y, '-')
+	end
+
 	waitbar(it./STEPS, h);
 end
 close(h);
 
-%% plot stuff
-siz = size(Area);
-x = linspace(0, siz(1), siz(1));
-y = x;
-[A,B] = meshgrid(x,y);
-Q_m = zeros(siz(1));
-%for it = 1:length(Q.q)
-%	Q_m(Q.x(it), Q.y(it)) = Q.q(it);
-%end
-F_QUI = 2;
-F_FORCE = 3;
-%figure(1),surf(A,B, Q_m);
-figure(F_FORCE),quiver(Q.x,Q.y,Q.Fx,Q.Fy);
-figure(F_QUI),quiver(Q.x,Q.y,Q.Ex,Q.Ey);
-
-% Display charges
-if Q.q > 0
-	figure(F_QUI),text(Q.x, Q.y, '+')
-else
-	figure(F_QUI),text(Q.x, Q.y, '-')
-end
