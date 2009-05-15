@@ -20,6 +20,7 @@ E_0 = 9e-12;
 E_vacum = 1;
 E_air = 1.00054;
 E_foo = 100;
+E0 = 8.8542e-10;
 
 % cicuit params
 R = 1e6;
@@ -31,6 +32,7 @@ Q_CHARGE = 5; %Coulombs
 
 %% Init
 dt = TIME_MAX-0 ./ STEPS;
+t = dt;
 s_2 = (1./CELL_MM);
 
 [Area, dummy] = create_area(CELL_MM,CAP_WIDTH,CAP_HEIGTH,WIRE_WIDTH);
@@ -50,44 +52,67 @@ Q.x = [ones(1,Q_NUM./2), ones(1,Q_NUM./2).*2];
 Q.y = [1:1:5, 1:1:5];
 Q.x(11) = 1.5;
 Q.y(11) = 5;
+% Init velocity
+Q.vx(Q_NUM) = 0;
+Q.vy(Q_NUM) = 0;
 
+Qt{1} = Q;
 %% Calculate stuff.
-%distance
-X = meshgrid(Q.x);
-Y = meshgrid(Q.y);
-XX = X - X';
-YY = Y - Y';
-D2 = XX.^2 + YY.^2;
-D = sqrt(D2);
+h = waitbar(1./STEPS);
+for it = 1:STEPS
+	Q = Qt{it};
+	%distance
+	X = meshgrid(Q.x);
+	Y = meshgrid(Q.y);
+	XX = X - X';
+	YY = Y - Y';
+	D2 = XX.^2 + YY.^2;
+	D = sqrt(D2);
 
-% Potential
-D(eye(Q_NUM) == 1) = 1;
-Q.v = meshgrid(Q.q)' ./ D;
-% Real distance
-R3 = D.^3;
-R3(eye(Q_NUM) == 1) = 1;
-Rinv = 1./R3;
-Rinv(eye(Q_NUM) == 1) = 0;
+	% Potential
+	D(eye(Q_NUM) == 1) = 1;
+	Q.v = meshgrid(Q.q)' ./ D;
+	% Real distance
+	R3 = D.^3;
+	R3(eye(Q_NUM) == 1) = 1;
+	Rinv = 1./R3;
+	Rinv(eye(Q_NUM) == 1) = 0;
 
-qm = meshgrid(Q.q)';
-qx = qm .* XX;
-qy = qm .* YY;
+	qm = meshgrid(Q.q)';
+	qx = qm .* XX;
+	qy = qm .* YY;
 
-qx(eye(Q_NUM) == 1) = 0;
-qy(eye(Q_NUM) == 1) = 0;
-% Electric field
-Ex = qx * Rinv;
-Ey = qy * Rinv;
+	qx(eye(Q_NUM) == 1) = 0;
+	qy(eye(Q_NUM) == 1) = 0;
+	% Electric field
+	Ex = qx * Rinv;
+	Ey = qy * Rinv;
 
-% Medium factor
-Ke = 1./(4.*pi.*E_foo);
+	% Medium factor
+	Ke = 1./(4.*pi.*E0);
 
-Q.Ex = Ex(eye(Q_NUM) == 1) .* (Ke./2);
-Q.Ey = Ey(eye(Q_NUM) == 1) .* (Ke./2);
-%force
-Q.Fx = Q.Ex .* Q.q';
-Q.Fy = Q.Ey .* Q.q';
+	Q.Ex = Ex(eye(Q_NUM) == 1) .* (Ke./2);
+	Q.Ey = Ey(eye(Q_NUM) == 1) .* (Ke./2);
+	%force
+	Q.Fx = Q.Ex .* Q.q';
+	Q.Fy = Q.Ey .* Q.q';
 
+	%Actualize data
+	Fx = sigma.*Q.Ex./Q.q';
+	Fy = sigma.*Q.Ey./Q.q';
+	Qn.x = Q.x + Q.vx.*t(it) + Fx' .* t(it)^2;
+	Qn.y = Q.y + Q.vy.*t(it) + Fy' .* t(it)^2;
+	Qn.vx = Q.vx + Fx' .* t(it);
+	Qn.vy = Q.vy + Fy' .* t(it);
+	t(it+1) = t(it) + dt;
+
+	Qn.q = Q.q;
+	Qt{it} = Q;
+	Qt{it+1} = Qn;
+
+	waitbar(it./STEPS, h);
+end
+close(h);
 
 %% plot stuff
 siz = size(Area);
@@ -99,8 +124,9 @@ Q_m = zeros(siz(1));
 %	Q_m(Q.x(it), Q.y(it)) = Q.q(it);
 %end
 F_QUI = 2;
+F_FORCE = 3;
 %figure(1),surf(A,B, Q_m);
-figure(F_QUI),quiver(Q.x,Q.y,Q.Fx,Q.Fy);
+figure(F_FORCE),quiver(Q.x,Q.y,Q.Fx,Q.Fy);
 figure(F_QUI),quiver(Q.x,Q.y,Q.Ex,Q.Ey);
 
 % Display charges
